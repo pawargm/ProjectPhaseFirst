@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+<!--<meta charset="utf-8"/>-->
+
+
+
+
+<!--<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>-->
+<script src="/angular-1.7.2/angular.min.js"></script>
+<body ng-app="myapp" n>
+
+
+
+
+<div ng-controller="MyController">
+
+<form ng-submit="myFun()">
+	<lable>FirstName</lable>
+	<input type="text" ng-model="fname" ><br/>
+	
+	<lable>LastName</lable>
+	<input type="text" ng-model="lname" ><br/>
+
+	<lable>Email</lable>
+	<input type="email" ng-model="email"><br/>
+	
+	<lable>username</lable>
+	<input type="text" ng-model="username"><br/>
+
+	<lable>Password</lable>
+	<input type="password" ng-model="password"><br/>
+	
+	<input type="submit">
+</form>
+{{data}}
+{{errordata}}
+
+
+
+</div>
+
+</body>
+<script>
+var app=angular.module("myapp",[]);
+
+app.controller("MyController",function($http,$scope,$httpParamSerializerJQLike){
+	
+	$scope.myFun = function(){
+
+		var objdata = {firstName:$scope.fname,lastName:$scope.lname,email:$scope.email,userName:$scope.username,password:$scope.password};
+		var jsondata = JSON.stringify({name:"gopal",price:"1"});
+
+		var tmp = $httpParamSerializerJQLike({name:"gopal",price:"1"});
+
+		$scope.test =  $scope.name1
+				$http({
+  method  : 'POST',
+  url     : 'http://localhost:8080/create',
+  data    : objdata,
+  headers : { 'Content-Type': 'application/json' }  // set the headers so angular passing info as form data (not request payload)
+ 	}).then(
+ 			
+ 			function (response){
+ 				var data = response;
+ 				$scope.data = data	
+ 			},
+
+ 			function (reason){
+ 				$scope.errordata = reason.data;
+ 			}	
+
+		)
+ 		//$http.post("http://localhost:8080/testpostjson",objdata);
+ 		
+ 		//$http.post("http://localhost:8080/testpostjson",jsondata,{headers: {'Content-Type': 'application/json'} });
+
+
+
+	}
+
+
+});
+
+
+
+
+</script>
+ 	
+
+
+
+</html>

@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+
+
+
+<html xmlns:th="http://thymeleaf.org">
+  <head>
+
+    <title>
+      PRM
+    </title>
+
+    <!--<meta charset="utf-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      {% load staticfiles %}
+      <link rel='stylesheet' href="{% static 'bootstrap-3.3.7/dist/css/bootstrap.min.css' %}" type="text/css">
+      <script src="{% static 'bootstrap-3.3.7/dist/js/bootstrap.min.js' %}"></script>
+      <script src="{% static 'bootstrap-3.3.7/docs/assets/js/vendor/jquery.min.js' %}"></script>
+      -->
+      
+      <title>PRM</title>
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+      <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+  </head>
+
+
+
+
+  <body>
+
+
+
+
+
+<nav class="navbar navbar-inverse">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>                        
+      </button>
+      <a class="navbar-brand" href="#">PRMS</a>
+    </div>
+    <div class="collapse navbar-collapse" id="myNavbar">
+      <ul class="nav navbar-nav">
+        <li class="active"><a href="{% url 'index' %}">Home</a></li>
+        
+          
+          
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+      
+        <li><a href="{% url 'signup_acc' %}"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
+        <li><a href="{% url 'login_acc' %}"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<script type="text/javascript">
+  
+  function _(x){
+  return document.getElementById(x);
+  }
+
+  function test(){
+
+    var username = _("username").value;
+    var password = _("password").value;
+
+    var passw = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,20}$/;  //6 to 20 character which contain least one numeric digit,one uppercase,and onelowercase
+
+    if(username.length != 0 && password.length != 0)
+    {
+
+      if(password.match(passw))   
+      {   
+  
+          _("loginform").method = "post";
+       
+          _("loginform").submit();
+
+      }  
+      else
+      {
+
+
+        alert('fill password in given condition');
+
+        location.reload()
+      }
+    }
+    else
+    {
+      alert("fill unfilled fileds")
+    }
+
+  }
+
+</script>
+
+
+
+
+
+
+
+
+<div class="container-fluid">
+  <!--<center><h1>Project Resource Management System For Cloud</h1></center>-->
+  
+
+<br>
+<p><b>{{message}}</b></p>
+<div class="container">
+	<div class="row">
+		<div class="col-sm-4"></div>
+
+		<div class="col-sm-4">
+			<div class="thumbnail" style="background-color:lavender">
+			<form id="loginform" action="/newapp/check_account/" onsubmit="return false">{% csrf_token %} <!--action="/newapp/check_account/"-->
+
+				<div class="form-group">
+				<label for="username">Username</label>
+				<input type="text" name="username" class="form-control" id="username" placeholder="username">
+				</div>
+
+		
+        <div class="form-group">
+        <label for="password">password</label>
+        <input type="password" name="password" class="form-control" id="password" placeholder="with in 6 to 20 1 lowecase 1 uppercase 1 numeric">
+        </div>
+        
+				<center><button type="submit"  class="btn btn-success" onclick="test()">Login</button></center>
+        <a href="{% url 'forgetpassword' %}">foget password?</a>
+			</form>
+			</div>
+		</div>
+
+		<div class="col-sm-4"></div>
+
+	</div>
+</div>
+
+</div>

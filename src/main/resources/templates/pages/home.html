@@ -1,0 +1,48 @@
+<!doctype html>
+<html ng-app="myApp" xmlns:th="http://thymeleaf.org">
+ 
+  <body >
+
+
+
+    
+      <h1>Home</h1>
+      <h3>{{message}}</h3>
+    
+
+<div class="container">
+	<div class="row">
+		<div class="col-sm-4"></div>
+
+		<div class="col-sm-4">
+			<div class="thumbnail" style="background-color:lavender">
+			<form id="loginform" action="/newapp/check_account/" onsubmit="return false">{% csrf_token %} <!--action="/newapp/check_account/"-->
+
+				<div class="form-group">
+				<label for="username">Username</label>
+				<input type="text" name="username" class="form-control" id="username" placeholder="username">
+				</div>
+
+		
+        <div class="form-group">
+        <label for="password">password</label>
+        <input type="password" name="password" class="form-control" id="password" placeholder="with in 6 to 20 1 lowecase 1 uppercase 1 numeric">
+        </div>
+        
+				<center><button type="submit"  class="btn btn-success" onclick="test()">Login</button></center>
+        <a href="{% url 'forgetpassword' %}">foget password?</a>
+			</form>
+			</div>
+		</div>
+
+		<div class="col-sm-4"></div>
+
+	</div>
+</div>
+
+</div>
+
+
+
+  </body>
+</html>
