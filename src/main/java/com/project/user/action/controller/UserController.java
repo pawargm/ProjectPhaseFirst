@@ -12,7 +12,17 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
+
+import org.springframework.stereotype.Controller;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
+import java.util.HashMap;
+
+
 
 import com.project.user.action.model.User;
 import com.project.user.action.service.UserService;
@@ -39,20 +49,25 @@ public class UserController {
 	}
 	
 	@RequestMapping(value="/login1",method=RequestMethod.POST,consumes=MediaType.APPLICATION_JSON_UTF8_VALUE)
-	public HttpStatus login(@RequestBody User u) {//@RequestParam String username,@RequestParam String password) {
+	public HttpStatus login(@RequestBody User u,HttpSession session) {//@RequestParam String username,@RequestParam String password) {
 		String tmp = userService.login(u.getUserName(),u.getPassword());//username,password);
 		
+		session.setAttribute("usrsession", "logout");
 		if(tmp.equals("Success:200")) {
+			session.setAttribute("usrsession", "login");
 			return HttpStatus.OK;
 		}
 		else {
+			session.setAttribute("usrsession", "logout");
 			return HttpStatus.UNAUTHORIZED;
 		}
 	}
 	
 	@GetMapping("/greeting")
-	public String index() {
+	public String index(HttpSession session) {
 		
+		System.out.println(session.getAttribute("usrsession"));
+		session.removeValue("usrsession");
 		return "index";
 	}
 	
@@ -86,12 +101,20 @@ public class UserController {
 			return HttpStatus.NOT_FOUND;
 		}
 		return HttpStatus.FOUND;
+		
+	}
+	
+	@RequestMapping(value="/islogin",method=RequestMethod.GET)
+	public HttpStatus checkSession(HttpSession session) {
+		
+		if(session.getValue("usrsession") != null)
+		{
+			if(session.getValue("usrsession").equals("login")) {
+				return HttpStatus.OK;
+				}
+			
+		}
+		return HttpStatus.NOT_ACCEPTABLE;
 	}
 
-
-	
-	
-	
-	
-	
 }

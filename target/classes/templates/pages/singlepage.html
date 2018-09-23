@@ -13,7 +13,7 @@
 </head>
 
 
-<body ng-app="myApp">
+<body ng-app="myApp" >
 
 <nav class="navbar navbar-inverse">
   <div class="container-fluid">
@@ -23,11 +23,12 @@
     <ul class="nav navbar-nav">
       <li class="active"><a href="#!/home">Home</a></li>
       <li class="active"><a href="#!/about">About</a></li>
-      <li class="active"><a href="#!/tutorials">Tutorials</a></li>
+      <li class="active"><a href="" ng-controller="CheckSession" ng-click="linkAddress()">Tutorials</a></li>
     </ul>
     <ul class="nav navbar-nav navbar-right">
       <li class="active"><a href="#!/singup"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
-      <li class="active"><a href="#!/login"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+      <li class="active"><a href="#!/login" ><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+      <li class="active"><a href="#!/home" ng-show="true" ng-controller="MyController"><span class="glyphicon glyphicon-log-in"></span> LogOut</a></li>
     </ul>
   </div>
 </nav>

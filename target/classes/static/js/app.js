@@ -1,22 +1,5 @@
 var app = angular.module('myApp', ['ngRoute']);
 
-
-app.factory('myService', function() {
-	 var savedData = {}
-	 function set(data) {
-	   savedData = data;
-	 }
-	 function get() {
-	  return savedData;
-	 }
-
-	 return {
-	  set: set,
-	  get: get
-	 }
-
-	});
-
 //Application Configure to give single page facility
 app.config(function($routeProvider) {
   $routeProvider
@@ -50,9 +33,21 @@ app.config(function($routeProvider) {
 	  
   })
   
+  .when('/tutorial1', {
+	  
+	  templateUrl : '/tutorial',
+	 
+	  
+  })
+  
+  .when('/afterlogin1', {
+	  templateUrl : '/afterlogin',
+  })
   
   .otherwise({redirectTo: '/'});
 });
+
+
 
 //To display when click on Home
 app.controller('HomeController', function($scope) {
@@ -75,8 +70,38 @@ app.controller('SingupForm', function($scope){
 	
 });
 
+//Controller to check user session
+app.controller('CheckSession', function($scope,$http,$location){
+	
+	$scope.linkAddress = function(){
+	 $http(
+				
+				{
+					method  : 'GET',
+					url     : 'http://localhost:8080/islogin',
+					headers : { 'Content-Type': 'application/json' }  // set the headers so angular passing info as form data (not request payload)
+				} 
+			 ).then
+		      (
+	    		  	    function (response){
+	    		  	    	
+						if(response.data == "OK"){
+							$location.path('/tutorial1');
+						}
+						else{
+							$location.path('/login');
+						}
+	    		  	},
+
+					function (reason){
+	    		  		$location.path('/login');
+					}	
+	      );
+	}
+});
+
 //Controller for hadling make rest call for create user, login and checking email and username
-app.controller("MyController",function($http,$scope,$httpParamSerializerJQLike,$location){
+app.controller("MyController",function($http,$scope,$rootScope,$httpParamSerializerJQLike,$location,$route){
 	
 	$scope.createUser = function(){
 		
@@ -125,14 +150,14 @@ app.controller("MyController",function($http,$scope,$httpParamSerializerJQLike,$
 				 ).then
 				      (
 				    		  	    function (response){
-									var data = response;
+									$scope.data = response.data
 									//$scope.data = data	
-									if($scope.data.data == "FOUND")
+									if($scope.data == "FOUND")
 									{
 										$scope.message = "email is already exit, please use other mail id";
 										alert($scope.message)
 									}
-									if($scope.data.data == "NOT_FOUND"){
+									if($scope.data == "NOT_FOUND"){
 										$scope.message = "email is not present";
 									}
 								},
@@ -157,9 +182,8 @@ app.controller("MyController",function($http,$scope,$httpParamSerializerJQLike,$
 				 ).then
 				      (
 				    		  	    function (response){
-									var data = response;
-									//$scope.data = data	
-									if($scope.data.data == "FOUND")
+									$scope.data = response.data	
+									if($scope.data == "FOUND")
 									{
 										$scope.message = "username is already exit, please use different username! :)";
 										alert($scope.message);
@@ -167,6 +191,7 @@ app.controller("MyController",function($http,$scope,$httpParamSerializerJQLike,$
 									if($scope.data.data == "NOT_FOUND"){
 										$scope.message = "usrname is not present";
 									}
+									
 								},
 
 								function (reason){
@@ -177,7 +202,6 @@ app.controller("MyController",function($http,$scope,$httpParamSerializerJQLike,$
 	
 	$scope.authenticateUser = function(){
 		var objdata = {userName:$scope.uname,password:$scope.password};
-		
 		$http(
 				{
 					method  : 'POST',
@@ -187,18 +211,20 @@ app.controller("MyController",function($http,$scope,$httpParamSerializerJQLike,$
 				} 
 			 ).then
 			      (
- 							function (response){
-								var data = response;
-								$scope.data = data	
-								
-							},
+ 					function (response){
 
-							function (reason){
+ 						if(response.data == "OK")
+							{		
+ 									//$route.reload();
+									$location.path('/singup');
+									//$location.path('http://localhost:8080/singlepage#!/singup');
+							}
+						},
+					function (reason){
 								$scope.errordata = reason.data;
-							}	
+					}	
 					)
-		
-	}
+			}
 		
 
 		

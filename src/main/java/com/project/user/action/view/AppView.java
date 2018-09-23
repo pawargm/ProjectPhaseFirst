@@ -1,5 +1,7 @@
 package com.project.user.action.view;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -79,5 +81,20 @@ public class AppView {
 		return mv;
 	}
 	
+	@RequestMapping("/tutorial")
+	public ModelAndView tutorial(HttpSession session) {
+		ModelAndView mv = new ModelAndView();
+		mv.setViewName("tutorial");
+		return mv;
+	}
+	
+/*	@RequestMapping("/afterlogin")
+	public ModelAndView afterlogin(HttpSession session) {
+		ModelAndView mv = new ModelAndView();
+		mv.setViewName("afterlogin");
+		return mv;
+	}
+*/
+
 	
 }
